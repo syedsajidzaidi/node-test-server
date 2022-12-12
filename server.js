@@ -14,7 +14,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 var axios = require('axios');
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());  
 app.use(express.urlencoded({ extended: true }));   
 
@@ -48,9 +48,9 @@ function structureDataReport(type){
   });
 }
 
-var corsOptions = {
-  origin: "https://localhost:4200"
-};
+// var corsOptions = {
+//   origin: "https://localhost:4200"
+// };
 
 app.get(`/api/hello`, (req, res) => {
   res.json({title : 'Hello World'});
