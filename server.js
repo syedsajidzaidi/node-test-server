@@ -52,8 +52,9 @@ var corsOptions = {
   origin: "https://localhost:4200"
 };
 
-
-
+app.get(`/api/hello`, (req, res) => {
+  res.json({title : 'Hello World'});
+});
 
 app.get(`/api/getToken/:id`, (req, res) => {
   axios(configAccessToken)
