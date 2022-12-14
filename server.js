@@ -14,6 +14,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 var axios = require('axios');
+var convert = require('xml-js');
 app.use(cors());
 app.use(express.json());  
 app.use(express.urlencoded({ extended: true }));   
@@ -52,8 +53,18 @@ function structureDataReport(type){
 //   origin: "https://localhost:4200"
 // };
 
-app.get(`/api/hello`, (req, res) => {
-  res.json({title : 'Hello World'});
+app.get(`/api/getFeeds`, (req, res) => {
+  axios({
+        method: 'GET',
+        url: 'https://www.gdg.travel/feed/',
+  })
+    .then(function (response) {
+      var xmlData = convert.xml2json(response.data, {
+        compact: true,
+        space: 4
+      });
+      res.json(JSON.parse(xmlData));
+    })
 });
 
 app.get(`/api/getToken/:id`, (req, res) => {
@@ -112,7 +123,7 @@ app.get(`/api/getToken/:id`, (req, res) => {
 });
 
 // set port, listen for requests
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
